@@ -7,12 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 public class NameFragment extends Fragment {
-    TextInputEditText nameInput;
+    private TextInputEditText nameInput;
 
     public NameFragment() {
         // Required empty public constructor
@@ -24,9 +26,14 @@ public class NameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.name_fragment, container, false);
+        return inflater.inflate(R.layout.name_fragment, container, false);
+    }
 
-        nameInput = rootView.findViewById(R.id.name_field);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        nameInput = view.findViewById(R.id.name_field);
         nameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -46,8 +53,5 @@ public class NameFragment extends Fragment {
                 mainActivity.setName(validName, text);
             }
         });
-
-
-        return rootView;
     }
 }

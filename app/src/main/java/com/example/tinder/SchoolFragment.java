@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -14,7 +16,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import org.w3c.dom.Text;
 
 public class SchoolFragment extends Fragment {
-    TextInputEditText schoolInput;
+    private TextInputEditText schoolInput;
 
     public SchoolFragment() {
         // Required empty public constructor
@@ -26,9 +28,14 @@ public class SchoolFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.school_fragment, container, false);
+        return inflater.inflate(R.layout.school_fragment, container, false);
+    }
 
-        schoolInput = rootView.findViewById(R.id.name_field);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        schoolInput = view.findViewById(R.id.name_field);
         schoolInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -48,7 +55,5 @@ public class SchoolFragment extends Fragment {
                 mainActivity.setSchool(validSchool, text);
             }
         });
-
-        return rootView;
     }
 }

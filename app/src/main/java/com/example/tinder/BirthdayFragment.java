@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,9 +31,14 @@ public class BirthdayFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.birthday_fragment, container, false);
+        return inflater.inflate(R.layout.birthday_fragment, container, false);
+    }
 
-        birthdayInput = rootView.findViewById(R.id.birthday_field);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        birthdayInput = view.findViewById(R.id.birthday_field);
         birthdayInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -62,7 +69,5 @@ public class BirthdayFragment extends Fragment {
                 mainActivity.setBirthday(validBirthday, text);
             }
         });
-
-        return rootView;
     }
 }

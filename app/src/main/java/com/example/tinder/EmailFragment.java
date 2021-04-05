@@ -7,13 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 
 public class EmailFragment extends Fragment {
-    String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-    TextInputEditText emailInput;
+    private String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+    private TextInputEditText emailInput;
 
     public EmailFragment() {
         // Required empty public constructor
@@ -25,9 +27,14 @@ public class EmailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.email_fragment, container, false);
+        return inflater.inflate(R.layout.email_fragment, container, false);
+    }
 
-        emailInput = rootView.findViewById(R.id.email_field);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        emailInput = view.findViewById(R.id.email_field);
         emailInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,7 +54,5 @@ public class EmailFragment extends Fragment {
                 mainActivity.setEmail(validEmail, text);
             }
         });
-
-        return rootView;
     }
 }

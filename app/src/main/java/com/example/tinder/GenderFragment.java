@@ -7,15 +7,17 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.checkbox.MaterialCheckBox;
 
 public class GenderFragment extends Fragment {
-    Button womanButton;
-    Button manButton;
-    MaterialCheckBox showGenderCheckbox;
-    int currentValue = 0;
+    private Button womanButton;
+    private Button manButton;
+    private MaterialCheckBox showGenderCheckbox;
+    private int currentValue = 0;
 
     public GenderFragment() {
         // Required empty public constructor
@@ -27,16 +29,19 @@ public class GenderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.gender_fragment, container, false);
+        return inflater.inflate(R.layout.gender_fragment, container, false);
+    }
 
-        womanButton = rootView.findViewById(R.id.woman_button);
-        manButton = rootView.findViewById(R.id.man_button);
-        showGenderCheckbox = rootView.findViewById(R.id.show_gender_checkbox);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        womanButton = view.findViewById(R.id.woman_button);
+        manButton = view.findViewById(R.id.man_button);
+        showGenderCheckbox = view.findViewById(R.id.show_gender_checkbox);
 
         womanButton.setOnClickListener(v -> setWomanButtonClickedState());
         manButton.setOnClickListener(v -> setManButtonClickedState());
-
-        return rootView;
     }
 
     @Override

@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import java.text.ParseException;
@@ -13,12 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CardFragment extends Fragment {
-    TextView nameField;
-    TextView ageField;
-    TextView genderField;
-    TextView schoolField;
-    TextView emailField;
-
     public CardFragment() {
         // Required empty public constructor
     }
@@ -29,14 +25,20 @@ public class CardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.card_fragment, container, false);
+        return inflater.inflate(R.layout.card_fragment, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         MainActivity mainActivity = (MainActivity) getActivity();
 
-        nameField = rootView.findViewById(R.id.name);
-        ageField = rootView.findViewById(R.id.age);
-        genderField = rootView.findViewById(R.id.gender);
-        schoolField = rootView.findViewById(R.id.school);
-        emailField = rootView.findViewById(R.id.email);
+        TextView nameField = view.findViewById(R.id.name);
+        TextView ageField = view.findViewById(R.id.age);
+        TextView genderField = view.findViewById(R.id.gender);
+        TextView schoolField = view.findViewById(R.id.school);
+        TextView emailField = view.findViewById(R.id.email);
 
         nameField.setText(mainActivity.getName());
         ageField.setText(parseAge(mainActivity.getBirthday()));
@@ -46,8 +48,6 @@ public class CardFragment extends Fragment {
         emailField.setText(mainActivity.getEmail());
 
         parseAge(mainActivity.getBirthday());
-
-        return rootView;
     }
 
     private String parseAge(String birthdayString) {
