@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Title" parent="@style/TextAppearance.MaterialComponents.Headline4">
+        <item name="android:textSize">36dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Button" parent="@style/Widget.MaterialComponents.Button">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">1000dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingVertical">10dp</item>
+    </style>
+
+    <style name="Button.Inactive" parent="Button">
+        <item name="backgroundTint">@color/light_grey</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="Button.Gender" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">1000dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:paddingVertical">10dp</item>
+        <item name="android:textColor">@color/darker_grey</item>
+        <item name="strokeColor">@color/darker_grey</item>
+        <item name="rippleColor">@color/orange</item>
+    </style>
+
+    <style name="Headline5.Subdued" parent="@style/TextAppearance.MaterialComponents.Headline5">
+        <item name="android:textColor">@color/darker_grey</item>
+    </style>
+
+    <style name="Headline6.Subdued" parent="@style/TextAppearance.MaterialComponents.Headline6">
+        <item name="android:textColor">@color/darker_grey</item>
+    </style>
+</resources>

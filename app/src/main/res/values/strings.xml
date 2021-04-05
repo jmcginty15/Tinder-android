@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Tinder</string>
+    <string name="my_email_is">My email is</string>
+    <string name="email_address">Email Address</string>
+    <string name="my_first_name_is">My first name is</string>
+    <string name="first_name">First Name</string>
+    <string name="my_birthday_is">My birthday is</string>
+    <string name="birthday_input">M M / D D / Y Y Y Y</string>
+    <string name="your_age_will_be_public">Your age will be public</string>
+    <string name="my_school_is">My school is</string>
+    <string name="school_name">School Name</string>
+    <string name="i_am_a">I am a</string>
+    <string name="woman">Woman</string>
+    <string name="man">Man</string>
+    <string name="show_my_gender">Show my gender on my profile</string>
+    <string name="continue_button">Continue</string>
+    <string name="this_is_how_it_will_appear">This is how it will appear in Tinder</string>
+</resources>
