@@ -41,8 +41,9 @@ public class GenderFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        MainActivity mainActivity = (MainActivity) getActivity();
         super.onDestroyView();
-        updateMainActivity();
+        mainActivity.setShowGender(showGenderCheckbox.isChecked());
     }
 
     private void setWomanButtonClickedState() {

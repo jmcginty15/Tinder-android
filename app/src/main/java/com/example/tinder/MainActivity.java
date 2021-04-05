@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void displayNextFragment() {
+        setContinueActive(false);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -112,9 +114,6 @@ public class MainActivity extends AppCompatActivity {
             closeCurrentFragment();
             currentFragment++;
             displayNextFragment();
-            continueActive = false;
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
         }
     }
 
@@ -124,70 +123,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setEmail(boolean valid, String newEmail) {
-        if (valid && !continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
-        } else if (!valid && continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
-        }
-
-        continueActive = valid;
+        setContinueActive(valid);
         email = newEmail;
     }
 
     public void setName(boolean valid, String newName) {
-        if (valid && !continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
-        } else if (!valid && continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
-        }
-
-        continueActive = valid;
+        setContinueActive(valid);
         name = newName;
     }
 
     public void setBirthday(boolean valid, String newBirthday) {
-        if (valid && !continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
-        } else if (!valid && continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
-        }
-
-        continueActive = valid;
+        setContinueActive(valid);
         birthday = newBirthday;
     }
 
     public void setGender(int newGender, boolean newShowGender) {
-        System.out.println(newShowGender);
-
         if (newGender == 0) {
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
-            continueActive = false;
+            setContinueActive(false);
         } else {
-            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
-            continueActive = true;
+            setContinueActive(true);
             gender = newGender;
             showGender = newShowGender;
         }
     }
 
-    public void setSchool(boolean valid, String newSchool) {
-        if (valid && !continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
-        } else if (!valid && continueActive) {
-            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
-            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
-        }
+    public void setShowGender(boolean newShowGender) {
+        showGender = newShowGender;
+    }
 
-        continueActive = valid;
+    public void setSchool(boolean valid, String newSchool) {
+        setContinueActive(valid);
         school = newSchool;
     }
 
@@ -213,5 +178,16 @@ public class MainActivity extends AppCompatActivity {
 
     public String getSchool() {
         return school;
+    }
+
+    public void setContinueActive (boolean valid) {
+        if (valid && !continueActive) {
+            button.setBackgroundColor(getResources().getColor(R.color.red_orange, getTheme()));
+            button.setTextColor(getResources().getColor(R.color.white, getTheme()));
+        } else if (!valid && continueActive) {
+            button.setBackgroundColor(getResources().getColor(R.color.light_grey, getTheme()));
+            button.setTextColor(getResources().getColor(R.color.dark_grey, getTheme()));
+        }
+        continueActive = valid;
     }
 }
