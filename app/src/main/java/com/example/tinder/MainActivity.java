@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.progressindicator.LinearProgressIndicator;
+
 public class MainActivity extends AppCompatActivity {
+    private LinearProgressIndicator progressIndicator;
     private Button button;
     private boolean continueActive = false;
     private int currentFragment = 0;
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
+
+        progressIndicator = findViewById(R.id.progress_indicator);
 
         button = findViewById(R.id.continue_button);
         button.setOnClickListener(v -> advanceToNextFragment());
@@ -46,18 +51,23 @@ public class MainActivity extends AppCompatActivity {
         } else if (currentFragment == 1) {
             NameFragment nameFragment = NameFragment.newInstance();
             fragmentTransaction.add(R.id.fragment_container, nameFragment).addToBackStack(null).commit();
+            progressIndicator.setProgressCompat(20, true);
         } else if (currentFragment == 2) {
             BirthdayFragment birthdayFragment = BirthdayFragment.newInstance();
             fragmentTransaction.add(R.id.fragment_container, birthdayFragment).addToBackStack(null).commit();
+            progressIndicator.setProgressCompat(40, true);
         } else if (currentFragment == 3) {
             GenderFragment genderFragment = GenderFragment.newInstance();
             fragmentTransaction.add(R.id.fragment_container, genderFragment).addToBackStack(null).commit();
+            progressIndicator.setProgressCompat(60, true);
         } else if (currentFragment == 4) {
             SchoolFragment schoolFragment = SchoolFragment.newInstance();
             fragmentTransaction.add(R.id.fragment_container, schoolFragment).addToBackStack(null).commit();
+            progressIndicator.setProgressCompat(80, true);
         } else {
             CardFragment cardFragment = CardFragment.newInstance();
             fragmentTransaction.add(R.id.fragment_container, cardFragment).addToBackStack(null).commit();
+            progressIndicator.setProgressCompat(100, true);
         }
     }
 
