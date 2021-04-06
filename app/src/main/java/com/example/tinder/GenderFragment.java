@@ -43,10 +43,13 @@ public class GenderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setCurrentFragment(4);
+
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(60, true);
 
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         currentValue = viewModel.getGender();
         if (currentValue == 1) {
             clickWomanButton();
@@ -140,13 +143,9 @@ public class GenderFragment extends Fragment {
     }
 
     private void navigateToSchoolFragment() {
-        Bundle schoolFragmentArgs = new SchoolFragmentArgs.Builder()
-                .setEmail(requireArguments().get("email").toString())
-                .setName(requireArguments().get("name").toString())
-                .setBirthday(requireArguments().get("birthday").toString())
-                .setGender(currentValue)
-                .setShowGender(binding.showGenderCheckbox.isChecked()).build().toBundle();
-        NavHostFragment.findNavController(this).navigate(R.id.destination_school_fragment, schoolFragmentArgs);
+        viewModel.setGender(currentValue);
+        viewModel.setShowGender(binding.showGenderCheckbox.isChecked());
+        NavHostFragment.findNavController(this).navigate(R.id.destination_school_fragment);
     }
 
     private void backToBirthdayFragment() {

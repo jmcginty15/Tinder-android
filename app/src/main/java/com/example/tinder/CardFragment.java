@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.CardFragmentBinding;
@@ -20,6 +21,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CardFragment extends Fragment {
+    private MainViewModel viewModel;
+
     private CardFragmentBinding binding;
     public CardFragment() {
         // Required empty public constructor
@@ -40,15 +43,20 @@ public class CardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setCurrentFragment(6);
+
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(100, true);
 
-        final String email = requireArguments().get("email").toString();
-        final String name = requireArguments().get("name").toString();
-        final String birthday = requireArguments().get("birthday").toString();
-        final int gender = Integer.parseInt(requireArguments().get("gender").toString());
-        final boolean showGender = Boolean.parseBoolean(requireArguments().get("showGender").toString());
-        final String school = requireArguments().get("school").toString();
+        final String email = viewModel.getEmail();
+        final String name = viewModel.getName();
+        final String birthday = viewModel.getBirthday();
+        final int gender = viewModel.getGender();
+        final boolean showGender = viewModel.isShowGender();
+        final String school = viewModel.getSchool();
 
         binding.name.setText(name);
         binding.age.setText(parseAge(birthday));

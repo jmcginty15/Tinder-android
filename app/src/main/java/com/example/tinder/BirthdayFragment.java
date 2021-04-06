@@ -48,10 +48,13 @@ public class BirthdayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setCurrentFragment(3);
+
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(40, true);
 
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         binding.birthdayField.setText(viewModel.getBirthday());
 
         binding.birthdayContinueButton.setOnClickListener(v -> navigateToGenderFragment());
@@ -101,11 +104,8 @@ public class BirthdayFragment extends Fragment {
     }
 
     private void navigateToGenderFragment() {
-        Bundle genderFragmentArgs = new GenderFragmentArgs.Builder()
-                .setEmail(requireArguments().get("email").toString())
-                .setName(requireArguments().get("name").toString())
-                .setBirthday(binding.birthdayField.getText().toString()).build().toBundle();
-        NavHostFragment.findNavController(this).navigate(R.id.destination_gender_fragment, genderFragmentArgs);
+        viewModel.setBirthday(binding.birthdayField.getText().toString());
+        NavHostFragment.findNavController(this).navigate(R.id.destination_gender_fragment);
     }
 
     private void backToNameFragment() {

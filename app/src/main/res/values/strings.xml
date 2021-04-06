@@ -15,4 +15,5 @@
     <string name="show_my_gender">Show my gender on my profile</string>
     <string name="continue_button">Continue</string>
     <string name="this_is_how_it_will_appear">This is how it will appear in Tinder</string>
+    <string name="skip">Skip</string>
 </resources>

@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.EmailFragmentBinding;
@@ -40,10 +41,15 @@ public class EmailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+        mainActivity.setCurrentFragment(1);
+
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(0, true);
 
-        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        viewModel.setCurrentDestination(Navigation.findNavController(view).getCurrentDestination());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         binding.emailField.setText(viewModel.getEmail());
 
         binding.emailContinueButton.setOnClickListener(v -> navigateToNameFragment());
@@ -81,8 +87,7 @@ public class EmailFragment extends Fragment {
     }
 
     private void navigateToNameFragment() {
-        Bundle emailFragmentArgs = new NameFragmentArgs.Builder()
-                .setEmail(binding.emailField.getText().toString()).build().toBundle();
-        NavHostFragment.findNavController(this).navigate(R.id.destination_name_fragment, emailFragmentArgs);
+        viewModel.setEmail(binding.emailField.getText().toString());
+        NavHostFragment.findNavController(this).navigate(R.id.destination_name_fragment);
     }
 }
