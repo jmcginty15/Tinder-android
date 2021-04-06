@@ -5,12 +5,14 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.Navigation;
 
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
     private LinearProgressIndicator progressIndicator;
     private Button button;
     private boolean continueActive = false;
@@ -29,10 +31,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
 
-        progressIndicator = findViewById(R.id.progress_indicator);
+        Navigation.findNavController(this, R.id.nav_host_fragment).setGraph(R.navigation.nav_graph);
 
-        button = findViewById(R.id.continue_button);
-        button.setOnClickListener(v -> advanceToNextFragment());
+        progressIndicator = findViewById(R.id.progress_indicator);
 
         if (savedInstanceState != null) {
             currentFragment = savedInstanceState.getInt(STATE_FRAGMENT);
@@ -49,26 +50,26 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentFragment == 0) {
             EmailFragment emailFragment = EmailFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, emailFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, emailFragment).addToBackStack(null).commit();
         } else if (currentFragment == 1) {
             NameFragment nameFragment = NameFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, nameFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, nameFragment).addToBackStack(null).commit();
             progressIndicator.setProgressCompat(20, true);
         } else if (currentFragment == 2) {
             BirthdayFragment birthdayFragment = BirthdayFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, birthdayFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, birthdayFragment).addToBackStack(null).commit();
             progressIndicator.setProgressCompat(40, true);
         } else if (currentFragment == 3) {
             GenderFragment genderFragment = GenderFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, genderFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, genderFragment).addToBackStack(null).commit();
             progressIndicator.setProgressCompat(60, true);
         } else if (currentFragment == 4) {
             SchoolFragment schoolFragment = SchoolFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, schoolFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, schoolFragment).addToBackStack(null).commit();
             progressIndicator.setProgressCompat(80, true);
         } else {
             CardFragment cardFragment = CardFragment.newInstance();
-            fragmentTransaction.add(R.id.fragment_container, cardFragment).addToBackStack(null).commit();
+//            fragmentTransaction.add(R.id.fragment_container, cardFragment).addToBackStack(null).commit();
             progressIndicator.setProgressCompat(100, true);
         }
     }
@@ -77,35 +78,35 @@ public class MainActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (currentFragment == 0) {
-            EmailFragment emailFragment = (EmailFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-            if (emailFragment != null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(emailFragment).commit();
-            }
+//            EmailFragment emailFragment = (EmailFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+//            if (emailFragment != null) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.remove(emailFragment).commit();
+//            }
         } else if (currentFragment == 1) {
-            NameFragment nameFragment = (NameFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-            if (nameFragment != null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(nameFragment).commit();
-            }
+//            NameFragment nameFragment = (NameFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+//            if (nameFragment != null) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.remove(nameFragment).commit();
+//            }
         } else if (currentFragment == 2) {
-            BirthdayFragment birthdayFragment = (BirthdayFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-            if (birthdayFragment != null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(birthdayFragment).commit();
-            }
+//            BirthdayFragment birthdayFragment = (BirthdayFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+//            if (birthdayFragment != null) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.remove(birthdayFragment).commit();
+//            }
         } else if (currentFragment == 3) {
-            GenderFragment genderFragment = (GenderFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-            if (genderFragment != null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(genderFragment).commit();
-            }
+//            GenderFragment genderFragment = (GenderFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+//            if (genderFragment != null) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.remove(genderFragment).commit();
+//            }
         } else if (currentFragment == 4) {
-            SchoolFragment schoolFragment = (SchoolFragment) fragmentManager.findFragmentById(R.id.fragment_container);
-            if (schoolFragment != null) {
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.remove(schoolFragment).commit();
-            }
+//            SchoolFragment schoolFragment = (SchoolFragment) fragmentManager.findFragmentById(R.id.fragment_container);
+//            if (schoolFragment != null) {
+//                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//                fragmentTransaction.remove(schoolFragment).commit();
+//            }
         }
     }
 

@@ -9,12 +9,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
+
+import com.example.tinder.databinding.CardFragmentBinding;
+import com.example.tinder.databinding.SchoolFragmentBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CardFragment extends Fragment {
+    private CardFragmentBinding binding;
     public CardFragment() {
         // Required empty public constructor
     }
@@ -25,29 +30,30 @@ public class CardFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.card_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = CardFragmentBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        final String email = requireArguments().get("email").toString();
+        final String name = requireArguments().get("name").toString();
+        final String birthday = requireArguments().get("birthday").toString();
+        final int gender = Integer.parseInt(requireArguments().get("gender").toString());
+        final boolean showGender = Boolean.parseBoolean(requireArguments().get("showGender").toString());
+        final String school = requireArguments().get("school").toString();
 
-        TextView nameField = view.findViewById(R.id.name);
-        TextView ageField = view.findViewById(R.id.age);
-        TextView genderField = view.findViewById(R.id.gender);
-        TextView schoolField = view.findViewById(R.id.school);
-        TextView emailField = view.findViewById(R.id.email);
+        binding.name.setText(name);
+        binding.age.setText(parseAge(birthday));
+        if (showGender) { binding.gender.setText(parseGender(gender)); }
+        else { binding.gender.setText("Gender hidden"); }
+        binding.school.setText(school);
+        binding.email.setText(email);
 
-        nameField.setText(mainActivity.getName());
-        ageField.setText(parseAge(mainActivity.getBirthday()));
-        if (mainActivity.getShowGender()) { genderField.setText(parseGender(mainActivity.getGender())); }
-        else { genderField.setText("Gender hidden"); }
-        schoolField.setText(mainActivity.getSchool());
-        emailField.setText(mainActivity.getEmail());
-
-        parseAge(mainActivity.getBirthday());
+        binding.cardBackButton.setOnClickListener(v -> backToSchoolFragment());
     }
 
     private String parseAge(String birthdayString) {
@@ -78,5 +84,9 @@ public class CardFragment extends Fragment {
         if (val == 1) { return "Woman"; }
         else if (val == -1 ) { return "Man"; }
         else { return "You done goofed"; }
+    }
+
+    private void backToSchoolFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_card_fragment_pop);
     }
 }

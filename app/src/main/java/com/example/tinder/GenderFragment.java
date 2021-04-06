@@ -10,14 +10,16 @@ import android.widget.CompoundButton;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.tinder.databinding.BirthdayFragmentBinding;
+import com.example.tinder.databinding.GenderFragmentBinding;
 import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class GenderFragment extends Fragment {
-    private Button womanButton;
-    private Button manButton;
-    private MaterialCheckBox showGenderCheckbox;
     private int currentValue = 0;
+    private GenderFragmentBinding binding;
 
     public GenderFragment() {
         // Required empty public constructor
@@ -29,68 +31,81 @@ public class GenderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.gender_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = GenderFragmentBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        womanButton = view.findViewById(R.id.woman_button);
-        manButton = view.findViewById(R.id.man_button);
-        showGenderCheckbox = view.findViewById(R.id.show_gender_checkbox);
+        binding.genderContinueButton.setOnClickListener(v -> navigateToSchoolFragment());
+        binding.genderContinueButton.setClickable(false);
 
-        womanButton.setOnClickListener(v -> setWomanButtonClickedState());
-        manButton.setOnClickListener(v -> setManButtonClickedState());
-    }
+        binding.genderBackButton.setOnClickListener(v -> backToBirthdayFragment());
 
-    @Override
-    public void onDestroyView() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        super.onDestroyView();
-        mainActivity.setShowGender(showGenderCheckbox.isChecked());
+        binding.womanButton.setOnClickListener(v -> setWomanButtonClickedState());
+        binding.manButton.setOnClickListener(v -> setManButtonClickedState());
     }
 
     private void setWomanButtonClickedState() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-
-        manButton.setBackgroundColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-        manButton.setTextColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
+        binding.manButton.setBackgroundColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+        binding.manButton.setTextColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
 
         if (currentValue == 1) {
-            womanButton.setBackgroundColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-            womanButton.setTextColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
+            binding.womanButton.setBackgroundColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            binding.womanButton.setTextColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
             currentValue = 0;
-        } else {
-            womanButton.setBackgroundColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
-            womanButton.setTextColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-            currentValue = 1;
-        }
 
-        updateMainActivity();
+            binding.genderContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, requireActivity().getTheme()));
+            binding.genderContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, requireActivity().getTheme()));
+            binding.genderContinueButton.setClickable(false);
+        } else {
+            binding.womanButton.setBackgroundColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
+            binding.womanButton.setTextColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            currentValue = 1;
+
+            binding.genderContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, requireActivity().getTheme()));
+            binding.genderContinueButton.setTextColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            binding.genderContinueButton.setClickable(true);
+        }
     }
 
     private void setManButtonClickedState() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-
-        womanButton.setBackgroundColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-        womanButton.setTextColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
+        binding.womanButton.setBackgroundColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+        binding.womanButton.setTextColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
 
         if (currentValue == -1) {
-            manButton.setBackgroundColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-            manButton.setTextColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
+            binding.manButton.setBackgroundColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            binding.manButton.setTextColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
             currentValue = 0;
-        } else {
-            manButton.setBackgroundColor(getResources().getColor(R.color.darker_grey, mainActivity.getTheme()));
-            manButton.setTextColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
-            currentValue = -1;
-        }
 
-        updateMainActivity();
+            binding.genderContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, requireActivity().getTheme()));
+            binding.genderContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, requireActivity().getTheme()));
+            binding.genderContinueButton.setClickable(false);
+        } else {
+            binding.manButton.setBackgroundColor(getResources().getColor(R.color.darker_grey, requireActivity().getTheme()));
+            binding.manButton.setTextColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            currentValue = -1;
+
+            binding.genderContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, requireActivity().getTheme()));
+            binding.genderContinueButton.setTextColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+            binding.genderContinueButton.setClickable(true);
+        }
     }
 
-    private void updateMainActivity() {
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setGender(currentValue, showGenderCheckbox.isChecked());
+    private void navigateToSchoolFragment() {
+        Bundle schoolFragmentArgs = new SchoolFragmentArgs.Builder()
+                .setEmail(requireArguments().get("email").toString())
+                .setName(requireArguments().get("name").toString())
+                .setBirthday(requireArguments().get("birthday").toString())
+                .setGender(currentValue)
+                .setShowGender(binding.showGenderCheckbox.isChecked()).build().toBundle();
+        NavHostFragment.findNavController(this).navigate(R.id.destination_school_fragment, schoolFragmentArgs);
+    }
+
+    private void backToBirthdayFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_gender_fragment_pop);
     }
 }

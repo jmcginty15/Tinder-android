@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/destination_email_fragment">
+
+    <fragment
+        android:id="@+id/destination_email_fragment"
+        android:name="com.example.tinder.EmailFragment"
+        tools:layout="@layout/email_fragment">
+
+        <action
+            android:id="@+id/action_email_fragment_to_name_fragment"
+            app:destination="@+id/destination_name_fragment">
+
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_name_fragment"
+        android:name="com.example.tinder.NameFragment"
+        tools:layout="@layout/name_fragment">
+
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_name_fragment_to_birthday_fragment"
+            app:destination="@+id/destination_birthday_fragment">
+
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_name_fragment_pop"
+            app:popUpTo="@id/destination_name_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_birthday_fragment"
+        android:name="com.example.tinder.BirthdayFragment"
+        tools:layout="@layout/birthday_fragment">
+
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_birthday_fragment_to_gender_fragment"
+            app:destination="@+id/destination_gender_fragment">
+
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="birthday"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_birthday_fragment_pop"
+            app:popUpTo="@id/destination_birthday_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_gender_fragment"
+        android:name="com.example.tinder.GenderFragment"
+        tools:layout="@layout/gender_fragment">
+
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="birthday"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_gender_fragment_to_school_fragment"
+            app:destination="@+id/destination_school_fragment">
+
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="birthday"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="gender"
+                android:defaultValue="0"
+                app:argType="integer" />
+
+            <argument
+                android:name="showGender"
+                android:defaultValue="false"
+                app:argType="boolean" />
+        </action>
+
+        <action
+            android:id="@+id/action_gender_fragment_pop"
+            app:popUpTo="@id/destination_gender_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_school_fragment"
+        android:name="com.example.tinder.SchoolFragment"
+        tools:layout="@layout/school_fragment">
+
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="birthday"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="gender"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="showGender"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <action
+            android:id="@+id/action_school_fragment_to_card_fragment"
+            app:destination="@+id/destination_card_fragment">
+
+            <argument
+                android:name="email"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="birthday"
+                android:defaultValue=""
+                app:argType="string" />
+
+            <argument
+                android:name="gender"
+                android:defaultValue="0"
+                app:argType="integer" />
+
+            <argument
+                android:name="showGender"
+                android:defaultValue="false"
+                app:argType="boolean" />
+
+            <argument
+                android:name="school"
+                android:defaultValue=""
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_school_fragment_pop"
+            app:popUpTo="@id/destination_school_fragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/destination_card_fragment"
+        android:name="com.example.tinder.CardFragment"
+        tools:layout="@layout/card_fragment">
+
+        <argument
+            android:name="email"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="birthday"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <argument
+            android:name="gender"
+            android:defaultValue="0"
+            app:argType="integer" />
+
+        <argument
+            android:name="showGender"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
+        <argument
+            android:name="school"
+            android:defaultValue=""
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_card_fragment_pop"
+            app:popUpTo="@id/destination_card_fragment"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_card_fragment_to_home"
+            app:destination="@+id/destination_email_fragment" />
+    </fragment>
+</navigation>

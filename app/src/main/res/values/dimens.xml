@@ -4,4 +4,5 @@
     <dimen name="bottom_spacing">75dp</dimen>
     <dimen name="bottom_text_spacing">35dp</dimen>
     <dimen name="bottom_margin">10dp</dimen>
+    <dimen name="title_top_margin">100dp</dimen>
 </resources>

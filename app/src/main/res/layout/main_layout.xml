@@ -14,54 +14,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragment_container"
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        android:layout="@layout/email_fragment"
-        app:layout_constraintBottom_toTopOf="@id/continue_button"
-        app:layout_constraintEnd_toStartOf="@id/glv85"
-        app:layout_constraintStart_toEndOf="@id/glv15"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/continue_button"
-        style="@style/Button.Inactive"
-        android:layout_width="@dimen/zero"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/bottom_margin"
-        android:text="@string/continue_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/glv95"
-        app:layout_constraintStart_toEndOf="@id/glv5"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glv5"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".05" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glv15"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".15" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glv85"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".85" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/glv95"
-        android:layout_width="@dimen/zero"
-        android:layout_height="@dimen/zero"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent=".95" />
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:navGraph="@navigation/nav_graph" />
 </androidx.constraintlayout.widget.ConstraintLayout>

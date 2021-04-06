@@ -10,14 +10,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.tinder.databinding.NameFragmentBinding;
 
 public class NameFragment extends Fragment {
-    private TextInputEditText nameInput;
+    private NameFragmentBinding binding;
 
     public NameFragment() {
-        // Required empty public constructor
     }
 
     public static NameFragment newInstance() {
@@ -26,15 +26,21 @@ public class NameFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.name_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = NameFragmentBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nameInput = view.findViewById(R.id.name_field);
-        nameInput.addTextChangedListener(new TextWatcher() {
+        binding.nameContinueButton.setOnClickListener(v -> navigateToBirthdayFragment());
+        binding.nameContinueButton.setClickable(false);
+
+        binding.nameBackButton.setOnClickListener(v -> backToEmailFragment());
+
+        binding.nameField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -47,11 +53,30 @@ public class NameFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                MainActivity mainActivity = (MainActivity) getActivity();
-                String text = nameInput.getText().toString();
-                boolean validName = text != null && text != "";
-                mainActivity.setName(validName, text);
+                String text = binding.nameField.getText().toString();
+                boolean validName = !text.isEmpty() && !text.isEmpty();
+
+                if (validName) {
+                    binding.nameContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, requireActivity().getTheme()));
+                    binding.nameContinueButton.setTextColor(getResources().getColor(R.color.white, requireActivity().getTheme()));
+                } else {
+                    binding.nameContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, requireActivity().getTheme()));
+                    binding.nameContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, requireActivity().getTheme()));
+                }
+
+                binding.nameContinueButton.setClickable(validName);
             }
         });
+    }
+
+    private void navigateToBirthdayFragment() {
+        Bundle nameFragmentArgs = new BirthdayFragmentArgs.Builder()
+                .setEmail(requireArguments().get("email").toString())
+                .setName(binding.nameField.getText().toString()).build().toBundle();
+        NavHostFragment.findNavController(this).navigate(R.id.destination_birthday_fragment, nameFragmentArgs);
+    }
+
+    private void backToEmailFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.action_name_fragment_pop);
     }
 }

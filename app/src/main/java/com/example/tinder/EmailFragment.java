@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.example.tinder.databinding.EmailFragmentBinding;
 
 public class EmailFragment extends Fragment {
     private String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-    private TextInputEditText emailInput;
+    private EmailFragmentBinding binding;
 
     public EmailFragment() {
         // Required empty public constructor
@@ -27,15 +28,19 @@ public class EmailFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.email_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
+        binding = EmailFragmentBinding.inflate(getLayoutInflater());
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emailInput = view.findViewById(R.id.email_field);
-        emailInput.addTextChangedListener(new TextWatcher() {
+        binding.emailContinueButton.setOnClickListener(v -> navigateToNameFragment());
+        binding.emailContinueButton.setClickable(false);
+
+        binding.emailField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -49,10 +54,25 @@ public class EmailFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 MainActivity mainActivity = (MainActivity) getActivity();
-                String text = emailInput.getText().toString();
+                String text = binding.emailField.getText().toString();
                 boolean validEmail = text.matches(EMAIL_REGEX);
-                mainActivity.setEmail(validEmail, text);
+
+                if (validEmail) {
+                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, mainActivity.getTheme()));
+                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
+                } else {
+                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, mainActivity.getTheme()));
+                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, mainActivity.getTheme()));
+                }
+
+                binding.emailContinueButton.setClickable(validEmail);
             }
         });
+    }
+
+    private void navigateToNameFragment() {
+        Bundle emailFragmentArgs = new NameFragmentArgs.Builder()
+                .setEmail(binding.emailField.getText().toString()).build().toBundle();
+        NavHostFragment.findNavController(this).navigate(R.id.destination_name_fragment, emailFragmentArgs);
     }
 }
