@@ -11,17 +11,20 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.GenderFragmentBinding;
 import com.example.tinder.databinding.SchoolFragmentBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
 
 import org.w3c.dom.Text;
 
 public class SchoolFragment extends Fragment {
     private SchoolFragmentBinding binding;
+    private MainViewModel viewModel;
 
     public SchoolFragment() {
         // Required empty public constructor
@@ -42,6 +45,12 @@ public class SchoolFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
+        progressIndicator.setProgressCompat(80, true);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        binding.schoolField.setText(viewModel.getSchool());
+
         binding.schoolContinueButton.setOnClickListener(v -> navigateToCardFragment());
         binding.schoolContinueButton.setClickable(false);
 
@@ -61,6 +70,7 @@ public class SchoolFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = binding.schoolField.getText().toString();
+                viewModel.setSchool(text);
                 boolean validSchool = text != null && text != "";
 
                 if (validSchool) {

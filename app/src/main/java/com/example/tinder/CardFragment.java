@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.CardFragmentBinding;
 import com.example.tinder.databinding.SchoolFragmentBinding;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -38,6 +39,9 @@ public class CardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
+        progressIndicator.setProgressCompat(100, true);
 
         final String email = requireArguments().get("email").toString();
         final String name = requireArguments().get("name").toString();

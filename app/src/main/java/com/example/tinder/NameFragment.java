@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.NameFragmentBinding;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class NameFragment extends Fragment {
     private NameFragmentBinding binding;
+    private MainViewModel viewModel;
 
     public NameFragment() {
     }
@@ -34,6 +37,12 @@ public class NameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
+        progressIndicator.setProgressCompat(20, true);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        binding.nameField.setText(viewModel.getName());
 
         binding.nameContinueButton.setOnClickListener(v -> navigateToBirthdayFragment());
         binding.nameContinueButton.setClickable(false);
@@ -54,6 +63,8 @@ public class NameFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = binding.nameField.getText().toString();
+                viewModel.setName(text);
+
                 boolean validName = !text.isEmpty() && !text.isEmpty();
 
                 if (validName) {

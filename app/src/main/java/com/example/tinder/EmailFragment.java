@@ -10,13 +10,16 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.EmailFragmentBinding;
+import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class EmailFragment extends Fragment {
     private String EMAIL_REGEX = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
     private EmailFragmentBinding binding;
+    private MainViewModel viewModel;
 
     public EmailFragment() {
         // Required empty public constructor
@@ -37,6 +40,12 @@ public class EmailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
+        progressIndicator.setProgressCompat(0, true);
+
+        viewModel = new ViewModelProvider(this).get(MainViewModel.class);
+        binding.emailField.setText(viewModel.getEmail());
+
         binding.emailContinueButton.setOnClickListener(v -> navigateToNameFragment());
         binding.emailContinueButton.setClickable(false);
 
@@ -53,16 +62,17 @@ public class EmailFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                MainActivity mainActivity = (MainActivity) getActivity();
                 String text = binding.emailField.getText().toString();
+                viewModel.setEmail(text);
+
                 boolean validEmail = text.matches(EMAIL_REGEX);
 
                 if (validEmail) {
-                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, mainActivity.getTheme()));
-                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.white, mainActivity.getTheme()));
+                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, getActivity().getTheme()));
+                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
                 } else {
-                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, mainActivity.getTheme()));
-                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, mainActivity.getTheme()));
+                    binding.emailContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, getActivity().getTheme()));
+                    binding.emailContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, getActivity().getTheme()));
                 }
 
                 binding.emailContinueButton.setClickable(validEmail);
