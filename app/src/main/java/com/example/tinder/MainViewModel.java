@@ -1,17 +1,15 @@
 package com.example.tinder;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
-import androidx.navigation.NavDestination;
 
 public class MainViewModel extends ViewModel {
-    private String email;
-    private String name;
-    private String birthday;
-    private int gender;
-    private boolean showGender;
-    private String school;
-    private int currentFragment = 0;
+    private String email = "";
+    private String name = "";
+    private String birthday = "";
+    private int gender = 0;
+    private boolean showGender = false;
+    private String school = "";
+    private int currentFragment = R.id.destination_email_fragment;
 
     public String getEmail() {
         return email;
@@ -61,11 +59,21 @@ public class MainViewModel extends ViewModel {
         this.school = school;
     }
 
-    public int getCurrentDestination() {
+    public int getCurrentFragment() {
         return currentFragment;
     }
 
-    public void setCurrentDestination(int currentFragment) {
+    public void setCurrentFragment(int currentFragment) {
         this.currentFragment = currentFragment;
+    }
+
+    public void resetAll() {
+        email = "";
+        name = "";
+        birthday = "";
+        gender = 0;
+        showGender = false;
+        school = "";
+        currentFragment = R.id.destination_email_fragment;
     }
 }

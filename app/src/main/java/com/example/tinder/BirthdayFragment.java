@@ -15,7 +15,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.BirthdayFragmentBinding;
-import com.example.tinder.databinding.NameFragmentBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,6 +40,14 @@ public class BirthdayFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = BirthdayFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("BIRTHDAY: " + R.id.destination_birthday_fragment);
+        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
+        if (viewModel.getCurrentFragment() != R.id.destination_birthday_fragment) {
+            skipToGenderFragment();
+        }
+
         return binding.getRoot();
     }
 
@@ -48,8 +55,7 @@ public class BirthdayFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(3);
+        System.out.println("ON VIEW CREATED:  " + viewModel.getCurrentFragment());
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(40, true);
@@ -105,10 +111,16 @@ public class BirthdayFragment extends Fragment {
 
     private void navigateToGenderFragment() {
         viewModel.setBirthday(binding.birthdayField.getText().toString());
+        viewModel.setCurrentFragment(R.id.destination_gender_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.destination_gender_fragment);
     }
 
     private void backToNameFragment() {
+        viewModel.setCurrentFragment(R.id.destination_name_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.action_birthday_fragment_pop);
+    }
+
+    private void skipToGenderFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.destination_gender_fragment);
     }
 }

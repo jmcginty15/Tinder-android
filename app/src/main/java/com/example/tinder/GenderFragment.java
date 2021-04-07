@@ -36,6 +36,14 @@ public class GenderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = GenderFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("GENDER:   " + R.id.destination_gender_fragment);
+        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
+        if (viewModel.getCurrentFragment() != R.id.destination_gender_fragment) {
+            skipToSchoolFragment();
+        }
+
         return binding.getRoot();
     }
 
@@ -43,8 +51,7 @@ public class GenderFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(4);
+        System.out.println("ON VIEW CREATED:  " + viewModel.getCurrentFragment());
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(60, true);
@@ -145,10 +152,16 @@ public class GenderFragment extends Fragment {
     private void navigateToSchoolFragment() {
         viewModel.setGender(currentValue);
         viewModel.setShowGender(binding.showGenderCheckbox.isChecked());
+        viewModel.setCurrentFragment(R.id.destination_school_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.destination_school_fragment);
     }
 
     private void backToBirthdayFragment() {
+        viewModel.setCurrentFragment(R.id.destination_birthday_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.action_gender_fragment_pop);
+    }
+
+    private void skipToSchoolFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.destination_school_fragment);
     }
 }

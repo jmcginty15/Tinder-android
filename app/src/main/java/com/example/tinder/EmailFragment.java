@@ -11,10 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.tinder.databinding.EmailFragmentBinding;
+
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 public class EmailFragment extends Fragment {
@@ -34,22 +34,27 @@ public class EmailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = EmailFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("EMAIL:    " + R.id.destination_email_fragment);
+        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
+        if (viewModel.getCurrentFragment() != R.id.destination_email_fragment) {
+            skipToNameFragment();
+        }
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel.setCurrentFragment(viewModel.getCurrentFragment());
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(1);
+        System.out.println("ON VIEW CREATED:  " + viewModel.getCurrentFragment());
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(0, true);
 
-        viewModel.setCurrentDestination(Navigation.findNavController(view).getCurrentDestination());
-
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         binding.emailField.setText(viewModel.getEmail());
 
         binding.emailContinueButton.setOnClickListener(v -> navigateToNameFragment());
@@ -88,6 +93,11 @@ public class EmailFragment extends Fragment {
 
     private void navigateToNameFragment() {
         viewModel.setEmail(binding.emailField.getText().toString());
+        viewModel.setCurrentFragment(R.id.destination_name_fragment);
+        NavHostFragment.findNavController(this).navigate(R.id.destination_name_fragment);
+    }
+
+    private void skipToNameFragment() {
         NavHostFragment.findNavController(this).navigate(R.id.destination_name_fragment);
     }
 }

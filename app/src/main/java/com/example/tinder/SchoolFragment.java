@@ -38,15 +38,20 @@ public class SchoolFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = SchoolFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("SCHOOL:   " + R.id.destination_school_fragment);
+        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
+        if (viewModel.getCurrentFragment() != R.id.destination_school_fragment) {
+            skipToCardFragment();
+        }
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(5);
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(80, true);
@@ -58,7 +63,7 @@ public class SchoolFragment extends Fragment {
         binding.schoolContinueButton.setClickable(false);
 
         binding.schoolBackButton.setOnClickListener(v -> backToGenderFragment());
-        binding.schoolSkipButton.setOnClickListener(v -> skipToCardFragment());
+        binding.schoolSkipButton.setOnClickListener(v -> skipToCardFragmentAndRemoveText());
 
         binding.schoolField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -92,15 +97,21 @@ public class SchoolFragment extends Fragment {
 
     private void navigateToCardFragment() {
         viewModel.setSchool(binding.schoolField.getText().toString());
+        viewModel.setCurrentFragment(R.id.destination_card_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
     }
 
-    private void skipToCardFragment() {
+    private void skipToCardFragmentAndRemoveText() {
         viewModel.setSchool("");
         NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
     }
 
     private void backToGenderFragment() {
+        viewModel.setCurrentFragment(R.id.destination_gender_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.action_school_fragment_pop);
+    }
+
+    private void skipToCardFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
     }
 }

@@ -16,4 +16,5 @@
     <string name="continue_button">Continue</string>
     <string name="this_is_how_it_will_appear">This is how it will appear in Tinder</string>
     <string name="skip">Skip</string>
+    <string name="back_to_start">Back to start</string>
 </resources>

@@ -27,20 +27,14 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_layout);
         viewModel = new ViewModelProvider(this).get(MainViewModel.class);
-
+        System.out.println("RESTARTING");
+//        System.out.println("EMAIL:    " + R.id.destination_email_fragment);
+//        System.out.println("NAME:     " + R.id.destination_name_fragment);
+//        System.out.println("BIRTHDAY: " + R.id.destination_birthday_fragment);
+//        System.out.println("GENDER:   " + R.id.destination_gender_fragment);
+//        System.out.println("SCHOOL:   " + R.id.destination_school_fragment);
+//        System.out.println("CARD:     " + R.id.destination_card_fragment);
+//        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
         Navigation.findNavController(this, R.id.nav_host_fragment).setGraph(R.navigation.nav_graph);
-
-        if (savedInstanceState != null) {
-            currentFragment = savedInstanceState.getInt(STATE_FRAGMENT);
-        }
-    }
-
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt(STATE_FRAGMENT, currentFragment);
-        super.onSaveInstanceState(savedInstanceState);
-    }
-
-    public void setCurrentFragment(int newCurrentFragment) {
-        this.currentFragment = newCurrentFragment;
     }
 }

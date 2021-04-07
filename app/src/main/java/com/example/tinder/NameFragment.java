@@ -31,20 +31,27 @@ public class NameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = NameFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("NAME:     " + R.id.destination_name_fragment);
+        System.out.println("CURRENT:  " + viewModel.getCurrentFragment());
+        if (viewModel.getCurrentFragment() != R.id.destination_name_fragment) {
+            skipToBirthdayFragment();
+        }
+
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        viewModel.setCurrentFragment(viewModel.getCurrentFragment());
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(2);
+        System.out.println("ON VIEW CREATED:  " + viewModel.getCurrentFragment());
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(20, true);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
         binding.nameField.setText(viewModel.getName());
 
         binding.nameContinueButton.setOnClickListener(v -> navigateToBirthdayFragment());
@@ -83,16 +90,18 @@ public class NameFragment extends Fragment {
         });
     }
 
-    private void updateViewModel() {
-
-    }
-
     private void navigateToBirthdayFragment() {
         viewModel.setName(binding.nameField.getText().toString());
+        viewModel.setCurrentFragment(R.id.destination_birthday_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.destination_birthday_fragment);
     }
 
     private void backToEmailFragment() {
+        viewModel.setCurrentFragment(R.id.destination_email_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.action_name_fragment_pop);
+    }
+
+    private void skipToBirthdayFragment() {
+        NavHostFragment.findNavController(this).navigate(R.id.destination_birthday_fragment);
     }
 }

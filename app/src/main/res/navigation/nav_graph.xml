@@ -259,9 +259,5 @@
             android:id="@+id/action_card_fragment_pop"
             app:popUpTo="@id/destination_card_fragment"
             app:popUpToInclusive="true" />
-
-        <action
-            android:id="@+id/action_card_fragment_to_home"
-            app:destination="@+id/destination_email_fragment" />
     </fragment>
 </navigation>

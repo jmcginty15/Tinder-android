@@ -36,6 +36,9 @@ public class CardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
         binding = CardFragmentBinding.inflate(getLayoutInflater());
+
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+
         return binding.getRoot();
     }
 
@@ -43,10 +46,9 @@ public class CardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
+        System.out.println("ON VIEW CREATED:  " + viewModel.getCurrentFragment());
 
-        MainActivity mainActivity = (MainActivity) getActivity();
-        mainActivity.setCurrentFragment(6);
+        viewModel = new ViewModelProvider(requireActivity()).get(MainViewModel.class);
 
         LinearProgressIndicator progressIndicator = getActivity().findViewById(R.id.progress_indicator);
         progressIndicator.setProgressCompat(100, true);
@@ -58,14 +60,15 @@ public class CardFragment extends Fragment {
         final boolean showGender = viewModel.isShowGender();
         final String school = viewModel.getSchool();
 
+        binding.email.setText(email);
         binding.name.setText(name);
         binding.age.setText(parseAge(birthday));
         if (showGender) { binding.gender.setText(parseGender(gender)); }
         else { binding.gender.setText("Gender hidden"); }
         binding.school.setText(school);
-        binding.email.setText(email);
 
         binding.cardBackButton.setOnClickListener(v -> backToSchoolFragment());
+        binding.cardContinueButton.setOnClickListener(v -> backToStart());
     }
 
     private String parseAge(String birthdayString) {
@@ -99,6 +102,12 @@ public class CardFragment extends Fragment {
     }
 
     private void backToSchoolFragment() {
+        viewModel.setCurrentFragment(R.id.destination_school_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.action_card_fragment_pop);
+    }
+
+    private void backToStart() {
+        viewModel.resetAll();
+        NavHostFragment.findNavController(this).navigate(R.id.destination_email_fragment);
     }
 }
