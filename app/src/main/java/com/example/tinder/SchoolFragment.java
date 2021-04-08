@@ -96,12 +96,14 @@ public class SchoolFragment extends Fragment {
     }
 
     private void navigateToCardFragment() {
+        saveUser();
         viewModel.setSchool(binding.schoolField.getText().toString());
         viewModel.setCurrentFragment(R.id.destination_card_fragment);
         NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
     }
 
     private void skipToCardFragmentAndRemoveText() {
+        saveUser();
         viewModel.setSchool("");
         NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
     }
@@ -113,5 +115,18 @@ public class SchoolFragment extends Fragment {
 
     private void skipToCardFragment() {
         NavHostFragment.findNavController(this).navigate(R.id.destination_card_fragment);
+    }
+
+    private void saveUser() {
+        MainViewModel user = new MainViewModel();
+
+        user.setEmail(viewModel.getEmail());
+        user.setName(viewModel.getName());
+        user.setBirthday(viewModel.getBirthday());
+        user.setGender(viewModel.getGender());
+        user.setShowGender(viewModel.isShowGender());
+        user.setSchool(viewModel.getSchool());
+
+        viewModel.addUser(user);
     }
 }

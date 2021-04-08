@@ -82,7 +82,6 @@ public class BirthdayFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 String text = binding.birthdayField.getText().toString();
-                viewModel.setBirthday(text);
 
                 boolean validBirthday;
 
@@ -99,6 +98,7 @@ public class BirthdayFragment extends Fragment {
                 if (validBirthday) {
                     binding.birthdayContinueButton.setBackgroundColor(getResources().getColor(R.color.red_orange, getActivity().getTheme()));
                     binding.birthdayContinueButton.setTextColor(getResources().getColor(R.color.white, getActivity().getTheme()));
+                    viewModel.setBirthday(text);
                 } else {
                     binding.birthdayContinueButton.setBackgroundColor(getResources().getColor(R.color.light_grey, getActivity().getTheme()));
                     binding.birthdayContinueButton.setTextColor(getResources().getColor(R.color.dark_grey, getActivity().getTheme()));
